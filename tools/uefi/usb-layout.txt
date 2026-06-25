@@ -1,6 +1,6 @@
 USB layout recommendation:
 
-- Place Shell.efi at EFI/Boot/Bootx64.efi for easy booting.
-- Include AutoSecureBootFix.nsh and UpdateKeys.nsh at the root of the USB drive.
-- Keep scripts and auth files in clearly labeled folders.
-- Use a FAT32 USB drive for UEFI compatibility.
+- Place the UEFI bootloader at EFI/BOOT/BOOTX64.EFI for AMD64 Intel firmware booting.
+- Keep AutoSecureBootFix.nsh and UpdateKeys.nsh at the root of the image for shell-based recovery flows.
+- Keep scripts and lab assets in clearly labeled folders.
+- Prefer UEFI-native ISO delivery and avoid CSM-dependent legacy boot assumptions.

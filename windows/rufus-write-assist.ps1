@@ -29,9 +29,9 @@ foreach ($drive in $drives) {
 }
 $report.Add('')
 $report.Add('Recommended procedure:')
-$report.Add('- Use Rufus to write the image to a USB drive.')
-$report.Add('- Select the generated .img file and a FAT32 target USB device.')
-$report.Add('- Boot the target device from the USB drive and launch the UEFI Shell helper.')
+$report.Add('- Use Rufus to write the image to a USB drive in ISO mode.')
+$report.Add('- Select the generated .iso file and a target USB device.')
+$report.Add('- Boot the target device in UEFI mode and launch the DEKASIGNA firmware helper.')
 $report.Add('- Preserve the firmware variable backups before any firmware-state change.')
 
 $reportPath = Join-Path $env:TEMP 'dekasigna-rufus-write-assist.txt'

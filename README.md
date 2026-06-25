@@ -1,6 +1,6 @@
 # dekasigna
 
-This repository builds a bootable USB image for firmware, boot, and compatibility experiments on a wide range of x86 systems. The content is organized as a general lab toolkit for UEFI/firmware diagnostics, Secure Boot observation, and compatibility research rather than a single-OS installer.
+This repository builds a bootable UEFI-native ISO image for firmware, boot, and compatibility experiments on a wide range of x86_64 systems. The content is organized as a general lab toolkit for amd64 Intel UEFI diagnostics, Secure Boot observation, and compatibility research rather than a single-OS installer.
 
 ## Build feature categories
 
@@ -20,7 +20,7 @@ This repository builds a bootable USB image for firmware, boot, and compatibilit
 - A compatibility lab package for older hardware-style experiments and hardware notes
 
 ### 4. Packaging and automation
-- A GitHub Actions workflow that produces a FAT32 image plus a ZIP archive
+- A GitHub Actions workflow that produces a UEFI-native ISO image plus a ZIP archive
 
 ## Recommended use
 
@@ -48,7 +48,7 @@ Artifacts are placed in the `artifacts/` directory.
 
 ## Rufus-friendly USB image
 
-The generated image is structured as a bootable FAT32 USB image with an MBR partition layout so it can be written with Rufus or similar tooling on Windows. The image is intended for lab and recovery workflows and should be used with care.
+The generated image is structured as a bootable amd64 Intel UEFI ISO with a futuristic EFI-first layout and no CSM dependency. It is intended for lab and recovery workflows and should be used with care.
 
 ## Validation and verification
 
@@ -59,7 +59,7 @@ powershell -ExecutionPolicy Bypass -File windows/verify-secureboot.ps1
 powershell -ExecutionPolicy Bypass -File windows/query-version-and-status.ps1
 powershell -ExecutionPolicy Bypass -File windows/fix-secureboot-update.ps1
 powershell -ExecutionPolicy Bypass -File windows/hp-9470m-secureboot-checklist.ps1
-powershell -ExecutionPolicy Bypass -File windows/rufus-write-assist.ps1 -ImagePath .\dekasigna-usb.img
+powershell -ExecutionPolicy Bypass -File windows/rufus-write-assist.ps1 -ImagePath .\dekasigna-uefi.iso
 powershell -ExecutionPolicy Bypass -File windows/log-secureboot-memory-integrity.ps1
 powershell -ExecutionPolicy Bypass -File windows/hackintosh-9470m-lab-report.ps1
 powershell -ExecutionPolicy Bypass -File windows/local-lab-report.ps1

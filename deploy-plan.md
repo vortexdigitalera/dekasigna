@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Build a single GitHub repository and CI pipeline that produces a bootable FAT32 USB image (ZIP + IMG) containing UEFI Shell, firmware diagnostics scripts, Secure Boot observation helpers, mock device-tree assets, and Windows-friendly verification tools for general compatibility experiments.
+Build a single GitHub repository and CI pipeline that produces a bootable amd64 Intel UEFI-first ISO image (ZIP + ISO) containing UEFI Shell, firmware diagnostics scripts, Secure Boot observation helpers, mock device-tree assets, and Windows-friendly verification tools for general compatibility experiments.
 
 ## Repository layout
 
@@ -38,7 +38,7 @@ dekasigna/
 ## Operational flow
 
 1. Download the CI artifact and extract it.
-2. Write the IMG file to a USB drive.
+2. Write the ISO file to a USB drive with UEFI/ISO mode.
 3. Boot the target PC from the USB device.
 4. Use the appropriate helper set based on the task category:
    - firmware and Secure Boot observation

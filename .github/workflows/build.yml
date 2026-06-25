@@ -1,29 +1,55 @@
-name: build-dekasigna-usb
+name: build-dekasigna-uefi
 
 on:
   push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
   workflow_dispatch:
 
 jobs:
-  build:
+  stability:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install build tools
+      - name: Install runtime toolchain
         run: |
           sudo apt-get update
-          sudo apt-get install -y dosfstools zip
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y grub-pc-bin grub-efi-amd64-bin xorriso mtools dosfstools zip shellcheck
 
-      - name: Build USB image
+      - name: Run shell lint and stability orchestrator
         run: |
-          chmod +x scripts/build-usb.sh
-          bash scripts/build-usb.sh
+          chmod +x scripts/build-usb.sh tests/test-build-iso.sh tests/stability-orchestrator.sh
+          bash tests/stability-orchestrator.sh
 
-      - name: Upload artifacts
+      - name: Upload release artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dekasigna-usb
+          name: dekasigna-uefi
           path: |
-            artifacts/dekasigna-usb.img
-            artifacts/dekasigna-usb.zip
+            artifacts/dekasigna-uefi.iso
+            artifacts/dekasigna-uefi.zip
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: stability
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dekasigna-uefi
+          path: dist
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/dekasigna-uefi.iso
+            dist/dekasigna-uefi.zip
+          generate_release_notes: true
