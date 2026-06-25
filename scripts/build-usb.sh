@@ -7,7 +7,7 @@ usbroot="$out_dir/usbroot"
 img_path="$out_dir/dekasigna-usb.img"
 zip_path="$out_dir/dekasigna-usb.zip"
 
-mkdir -p "$usbroot/EFI/Boot" "$usbroot/tools" "$usbroot/lab/mock-uefi-acpi" "$usbroot/lab/hackintosh-9470m" "$usbroot/validation" "$usbroot/validation/ms-uefi-validation" "$usbroot/windows"
+mkdir -p "$usbroot/EFI/Boot" "$usbroot/tools" "$usbroot/lab/mock-uefi-acpi" "$usbroot/lab/hackintosh-9470m" "$usbroot/lab/libreboot" "$usbroot/validation" "$usbroot/validation/ms-uefi-validation" "$usbroot/windows"
 
 cp "$repo_root/tools/uefi/Shell.efi" "$usbroot/EFI/Boot/Bootx64.efi"
 cp "$repo_root/tools/uefi/AutoSecureBootFix.nsh" "$usbroot/"
@@ -27,6 +27,8 @@ cp "$repo_root/windows/rufus-write-assist.ps1" "$usbroot/windows/"
 cp "$repo_root/windows/log-secureboot-memory-integrity.ps1" "$usbroot/windows/"
 cp "$repo_root/windows/hackintosh-9470m-lab-report.ps1" "$usbroot/windows/"
 cp "$repo_root/windows/local-lab-report.ps1" "$usbroot/windows/"
+cp "$repo_root/windows/libreboot-lab-report.ps1" "$usbroot/windows/"
+cp "$repo_root/windows/libreboot-risk-score.ps1" "$usbroot/windows/"
 cp "$repo_root/windows/verify-secureboot.ps1" "$usbroot/windows/"
 cp "$repo_root/README.md" "$usbroot/README.txt"
 cp "$repo_root/lab/mock-uefi-acpi/README.md" "$usbroot/lab/mock-uefi-acpi/"
@@ -34,6 +36,9 @@ cp "$repo_root/lab/mock-uefi-acpi/mock-device-tree.asl" "$usbroot/lab/mock-uefi-
 cp "$repo_root/lab/mock-uefi-acpi/mock-uefi-device.json" "$usbroot/lab/mock-uefi-acpi/"
 cp "$repo_root/lab/hackintosh-9470m/README.md" "$usbroot/lab/hackintosh-9470m/"
 cp "$repo_root/lab/hackintosh-9470m/compatibility-template.md" "$usbroot/lab/hackintosh-9470m/"
+cp "$repo_root/lab/libreboot/README.md" "$usbroot/lab/libreboot/"
+cp "$repo_root/lab/libreboot/flash-workflow.md" "$usbroot/lab/libreboot/"
+cp "$repo_root/lab/libreboot/risk-matrix.md" "$usbroot/lab/libreboot/"
 
 rm -f "$img_path" "$zip_path"
 

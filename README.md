@@ -59,6 +59,8 @@ powershell -ExecutionPolicy Bypass -File windows/rufus-write-assist.ps1 -ImagePa
 powershell -ExecutionPolicy Bypass -File windows/log-secureboot-memory-integrity.ps1
 powershell -ExecutionPolicy Bypass -File windows/hackintosh-9470m-lab-report.ps1
 powershell -ExecutionPolicy Bypass -File windows/local-lab-report.ps1
+powershell -ExecutionPolicy Bypass -File windows/libreboot-lab-report.ps1
+powershell -ExecutionPolicy Bypass -File windows/libreboot-risk-score.ps1 -RiskScore 2 -Description "Lab documentation only"
 powershell -ExecutionPolicy Bypass -File validation/run-validation.ps1
 ```
 
