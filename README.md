@@ -46,6 +46,10 @@ bash scripts/build-usb.sh
 
 Artifacts are placed in the `artifacts/` directory.
 
+## Rufus-friendly USB image
+
+The generated image is structured as a bootable FAT32 USB image with an MBR partition layout so it can be written with Rufus or similar tooling on Windows. The image is intended for lab and recovery workflows and should be used with care.
+
 ## Validation and verification
 
 On a Windows test system, use the included PowerShell helpers after booting normally:

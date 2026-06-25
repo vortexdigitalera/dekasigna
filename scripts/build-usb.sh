@@ -7,9 +7,10 @@ usbroot="$out_dir/usbroot"
 img_path="$out_dir/dekasigna-usb.img"
 zip_path="$out_dir/dekasigna-usb.zip"
 
-mkdir -p "$usbroot/EFI/Boot" "$usbroot/tools" "$usbroot/lab/mock-uefi-acpi" "$usbroot/lab/hackintosh-9470m" "$usbroot/lab/libreboot" "$usbroot/validation" "$usbroot/validation/ms-uefi-validation" "$usbroot/windows"
+mkdir -p "$usbroot/EFI/Boot" "$usbroot/EFI/BOOT" "$usbroot/tools" "$usbroot/lab/mock-uefi-acpi" "$usbroot/lab/hackintosh-9470m" "$usbroot/lab/libreboot" "$usbroot/validation" "$usbroot/validation/ms-uefi-validation" "$usbroot/windows"
 
 cp "$repo_root/tools/uefi/Shell.efi" "$usbroot/EFI/Boot/Bootx64.efi"
+cp "$repo_root/tools/uefi/Shell.efi" "$usbroot/EFI/BOOT/BOOTX64.EFI"
 cp "$repo_root/tools/uefi/AutoSecureBootFix.nsh" "$usbroot/"
 cp "$repo_root/tools/uefi/FactoryFirmwarePatch.nsh" "$usbroot/"
 cp "$repo_root/tools/uefi/UpdateKeys.nsh" "$usbroot/"
@@ -43,15 +44,30 @@ cp "$repo_root/lab/libreboot/risk-matrix.md" "$usbroot/lab/libreboot/"
 rm -f "$img_path" "$zip_path"
 
 truncate -s 200M "$img_path"
-mkfs.vfat -F32 "$img_path" >/dev/null
 
+partition_device=""
 mount_point="$(mktemp -d)"
-trap 'sudo umount "$mount_point" 2>/dev/null || true; rmdir "$mount_point"' EXIT
+trap 'if [ -n "$partition_device" ]; then sudo losetup -d "$partition_device" 2>/dev/null || true; fi; sudo umount "$mount_point" 2>/dev/null || true; rmdir "$mount_point"' EXIT
 
-sudo mount -o loop "$img_path" "$mount_point"
+sudo parted -s "$img_path" mklabel msdos >/dev/null
+sudo parted -s "$img_path" mkpart primary fat32 1MiB 100% >/dev/null
+sudo parted -s "$img_path" set 1 boot on >/dev/null
+
+partition_offset=$((2048 * 512))
+partition_device="$(sudo losetup --find --show --offset "$partition_offset" "$img_path")"
+if [ -z "$partition_device" ]; then
+  echo "Failed to create loop device for the FAT32 partition" >&2
+  exit 1
+fi
+
+sudo mkfs.vfat -F32 -n DEKASIGNA "$partition_device" >/dev/null
+sudo mount "$partition_device" "$mount_point"
+sudo mkdir -p "$mount_point/EFI/Boot" "$mount_point/EFI/BOOT"
 sudo cp -r "$usbroot"/. "$mount_point"/
 sync
 sudo umount "$mount_point"
+sudo losetup -d "$partition_device"
+partition_device=""
 rmdir "$mount_point"
 trap - EXIT
 
