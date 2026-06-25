@@ -1,0 +1,15 @@
+{
+  "deviceName": "Mock Secure Boot Lab Device",
+  "vendorId": "DEKA",
+  "deviceId": "MOCK0001",
+  "description": "Lab-only mock device tree entry for firmware and security behavior experiments.",
+  "capabilities": [
+    "secure-boot-observation",
+    "memory-integrity-observation",
+    "firmware-metadata-simulation"
+  ],
+  "notes": [
+    "This file does not modify real firmware or Windows protections.",
+    "Use only inside a controlled lab environment."
+  ]
+}
